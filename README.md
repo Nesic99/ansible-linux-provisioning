@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# ansible-linux-provisioning
-Ansible playbook for provisioning Linux my "way"
-=======
 # Introduction
 I've noticed that I tend to switch Linux distros or just reinstall the same one, so I made this script.
 
@@ -56,3 +52,4 @@ Since I'm still in the process of writing the script this part is subject to cha
 ansible-playbook -i inventory.ini main-playbook.yml -u your-username
 ```
 >>>>>>> initial-branch
+

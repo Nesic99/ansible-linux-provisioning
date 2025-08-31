@@ -1,0 +1,58 @@
+---
+- name: Provision Rocky Linux
+  hosts: all
+  become: yes
+
+  vars:
+    hostname: "test.hostname.example"
+    timezone: "Europe/Belgrade"
+
+  tasks:
+    - name: Run dnf update
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+
+    - name: Set system hostname
+      ansible.builtin.hostname:
+        name: "{{ hostname }}"
+
+    - name: Set system timezone
+      ansible.builtin.timezone:
+        name: "{{ timezone }}"
+
+  tasks:
+    - name: Install required system packages
+      dnf:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - bash-completion
+#        - htop
+        - net-tools
+        - curl
+        - git
+        - zip
+        - unzip
+        - tar
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
+        - python3
+
+    - name: Enable RPM Fusion Free repository
+      ansible.builtin.dnf:
+        name: https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+        state: present
+        disable_gpg_check: yes
+
+    - name: Enable RPM Fusion Nonfree repository
+      ansible.builtin.dnf:
+        name: https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+        state: present
+        disable_gpg_check: yes
+
+    - name: Install Steam
+      ansible.builtin.dnf:
+        name: steam
+        state: present
